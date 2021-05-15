@@ -27,7 +27,7 @@ public class ProcCancelarReserva {
     
     public void hacerConexionCR(){
         try {
-            Connection miConexionBU = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-KT6L84G:1433", "sa", "2020640576");
+            Connection miConexionBU = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-KT6L84G:1433;databaseName=BEEL_BALAM", "sa", "2020640576");
             CallableStatement resConexionCR;
             resConexionCR = miConexionBU.prepareCall("{call CANCELAR_RESERVA(?)}");
             resConexionCR.setInt(1,getCodReserva());

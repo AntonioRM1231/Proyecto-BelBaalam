@@ -732,7 +732,19 @@ public class Window extends javax.swing.JPanel {
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnEliminarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarUsuarioActionPerformed
-        // TODO add your handling code here:
+        ProcEliminarUsuario procElimU = new ProcEliminarUsuario();
+        procElimU.setNombreBU(txtDNombreUsuario.getText());
+        procElimU.setTarjetaBU(txtDNumTarjeta.getText());
+        
+        String ans[] = {"Eliminar","Cancelar"}; 
+        int opc = JOptionPane.showOptionDialog(this,"¿Desea eliminar de manera permanente su cuenta de usuario?", 
+                "Confirmar elimnar usuario", 0, 0, null,ans,this);
+        if(opc == JOptionPane.YES_OPTION){
+            procElimU.hacerConexionBUsuario();
+            System.out.println("Después de hacer conexion");
+            
+           System.exit(0); 
+        }
     }//GEN-LAST:event_btnEliminarUsuarioActionPerformed
 
     public void changes(String u){

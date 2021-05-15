@@ -36,11 +36,12 @@ public class ProcEliminarUsuario {
     
     public void hacerConexionBUsuario(){
         try {
-            Connection miConexionBU = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-KT6L84G:1433", "sa", "2020640576");
+            Connection miConexionBU = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-KT6L84G:1433;databaseName=BEEL_BALAM", "sa", "2020640576");
             CallableStatement resConexionBU;
             resConexionBU = miConexionBU.prepareCall("{call ELIMINAR_USUARIO(?,?)}");
             resConexionBU.setString(1,getNombreBU());
             resConexionBU.setString(2,getTarjetaBU());
+            resConexionBU.execute();
             JOptionPane.showMessageDialog(null, "Se ha eliminado correctamente al usuario");
         } catch (Exception e) {
             System.out.println("Ha habido un error al eliminar al usuario");

@@ -22,6 +22,7 @@ public class PantallaInicio3 extends javax.swing.JFrame {
     Connection conex;
     CallableStatement stm;
     ResultSet rs;
+    public static String nUsuarioPI;
     
     /**
      * Creates new form PantallaInicio3
@@ -170,17 +171,16 @@ public class PantallaInicio3 extends javax.swing.JFrame {
         try {
             //Conecta
             conex = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-KT6L84G:1433;databaseName=BEEL_BALAM", "sa", "2020640576");
-            System.out.println("yei");
             //Busca el usuario
             stm = conex.prepareCall("{call VALIDAR_INICIOSESION(?)}");
             String uIS = this.txtUsuario.getText();
+            nUsuarioPI = this.txtUsuario.getText();//posible redundancia
             stm.setString(1, uIS);
             rs = stm.executeQuery();
             if(rs.next()){ //si encuentra el usuario, verifica que la contraseña sea correcta
                 contra = rs.getString(1);
                 System.out.println(contra);
                 if(contra.equals(this.txtContra.getText())){
-                    //System.out.println("Exito!");
                     //Cambio de panel
                     panelWindow = new Window();
                     panelWindow.setUser(this.txtUsuario.getText());

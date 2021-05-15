@@ -8,6 +8,7 @@ package beelbalam1;
 import java.awt.event.ItemEvent;
 import javax.swing.*;
 import java.sql.*;
+import javax.swing.table.DefaultTableModel;
 
 
 /**
@@ -25,6 +26,8 @@ public class Window extends javax.swing.JPanel {
     Connection conex;
     CallableStatement stm;
     ResultSet rs;
+    
+    public static PantallaInicio3 p3 = new PantallaInicio3();
     /**
      * Creates new form Window
      */
@@ -39,6 +42,16 @@ public class Window extends javax.swing.JPanel {
         this.txtDNumTarjeta.setEditable(false);
         this.txtDPtosAcum.setEditable(false);
         this.txtDPassword.setEditable(false);
+        
+        DefaultTableModel modelo = (DefaultTableModel)tabla2.getModel();
+        modelo.addColumn("ID Reserva");
+        modelo.addColumn("Cliente");
+        modelo.addColumn("Fecha");
+        //modelo.addColumn("Hora");
+        modelo.addColumn("Tramo");  
+        modelo.addColumn("Est Inicial");  
+        modelo.addColumn("Est Final");  
+        modelo.addColumn("Costo");
     }
 
     /**
@@ -72,6 +85,7 @@ public class Window extends javax.swing.JPanel {
         txtDNumTarjeta = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
         txtDPassword = new javax.swing.JTextField();
+        btnEliminarUsuario = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
@@ -99,9 +113,10 @@ public class Window extends javax.swing.JPanel {
         jLabel20 = new javax.swing.JLabel();
         jComboBox3 = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabla2 = new javax.swing.JTable();
+        btnActualizar = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         btnCerrarSesion = new javax.swing.JButton();
 
@@ -190,6 +205,13 @@ public class Window extends javax.swing.JPanel {
 
         jLabel21.setText("CONTRASEÑA:");
 
+        btnEliminarUsuario.setText("Eliminar Usuario");
+        btnEliminarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarUsuarioActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -197,28 +219,30 @@ public class Window extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(175, 175, 175)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel21))
-                        .addGap(39, 39, 39)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnSaveChanges))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(txtDPassword, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtDCorreoE, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtDNombreUsuario, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtDNumCel, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtDPtosAcum, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtDNumTarjeta, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(btnEliminarUsuario)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel1)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel4)
+                                .addComponent(jLabel5)
+                                .addComponent(jLabel6)
+                                .addComponent(jLabel21))
+                            .addGap(39, 39, 39)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(btnSaveChanges))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(txtDPassword, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtDCorreoE, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtDNombreUsuario, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtDNumCel, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtDPtosAcum, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtDNumTarjeta, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap(216, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -254,7 +278,9 @@ public class Window extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEdit)
                     .addComponent(btnSaveChanges, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEliminarUsuario)
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Ver Perfil", jPanel1);
@@ -460,44 +486,57 @@ public class Window extends javax.swing.JPanel {
 
         jPanel3.setBackground(new java.awt.Color(255, 153, 0));
 
-        jLabel8.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
-        jLabel8.setText("Historial de compras");
+        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Historial de compras"));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabla2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "ID_Reserva", "Nombre Cliente", "Fecha ", "Hora", "Tramo", "Estación Final", "Estación Inicial", "Costo Total"
+
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tabla2);
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 759, Short.MAX_VALUE)
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(50, Short.MAX_VALUE))
+        );
+
+        btnActualizar.setText("Actualizar data");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(31, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 720, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addGap(286, 286, 286))))
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnActualizar)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(21, 21, 21)
+                .addComponent(btnActualizar)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Ver Historial", jPanel3);
@@ -633,7 +672,7 @@ public class Window extends javax.swing.JPanel {
     }//GEN-LAST:event_btnSaveChangesActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txtDNombreUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDNombreUsuarioActionPerformed
@@ -672,6 +711,38 @@ public class Window extends javax.swing.JPanel {
         this.getData(u,1);
         this.btnEdit.setVisible(true);
     }//GEN-LAST:event_btnAcuerdoActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        for(int i = 0; i<((DefaultTableModel)tabla2.getModel()).getRowCount();i++){
+             ((DefaultTableModel)tabla2.getModel()).removeRow(i);
+        }
+        try{
+            Connection miConexion = DriverManager.getConnection("jdbc:sqlserver://LAPTOP-8M3QSOFP\\SQLEXPRESS:1433;databaseName=BEEL_BALAM","sa", "llatitabebe");//2020640576
+            CallableStatement resConexion;
+            resConexion = miConexion.prepareCall("{call VER_HISTORIAL_COMPRAS(?)}");
+            //System.out.println("nUsuario en window: "+nUsuario);
+            //System.out.println("nUsuarioPI en window: "+p3.nUsuarioPI);
+            resConexion.setString(1,p3.nUsuarioPI);
+
+            ResultSet rs = resConexion.executeQuery();
+            while(rs.next()){
+                //Object fila[] = {"20","anita","10/20/20","selva","tulum","escarcega",100};
+                String nombre = rs.getString(2)+" "+rs.getString(3)+" "+rs.getString(4)+" "+
+                        rs.getString(5);
+                Object fila[] = {rs.getInt(1),nombre,rs.getDate(6),rs.getString(7),
+                    rs.getString(8),rs.getString(9),rs.getDouble(10)};
+                ((DefaultTableModel)tabla2.getModel()).addRow(fila);
+            }
+            rs.close();
+        }catch(Exception e){
+            //System.out.println("Ha habido un error al crear al usuario");
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void btnEliminarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarUsuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEliminarUsuarioActionPerformed
 
     public void changes(String u){
         //Metodo que manda la info de los cambios hechos en los datos del usuario
@@ -814,9 +885,11 @@ public class Window extends javax.swing.JPanel {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnAcuerdo;
     private javax.swing.JButton btnCerrarSesion;
     private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnEliminarUsuario;
     private javax.swing.JButton btnSaveChanges;
     private javax.swing.JComboBox<String> cbEstFin;
     private javax.swing.JComboBox<String> cbEstIni;
@@ -845,23 +918,23 @@ public class Window extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
+    private javax.swing.JTable tabla2;
     private javax.swing.JTextField txtDCorreoE;
     private javax.swing.JTextField txtDNombreUsuario;
     private javax.swing.JTextField txtDNumCel;

@@ -717,7 +717,7 @@ public class Window extends javax.swing.JPanel {
              ((DefaultTableModel)tabla2.getModel()).removeRow(i);
         }
         try{
-            Connection miConexion = DriverManager.getConnection("jdbc:sqlserver://LAPTOP-8M3QSOFP\\SQLEXPRESS:1433;databaseName=BEEL_BALAM","sa", "llatitabebe");//2020640576
+            Connection miConexion = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-KT6L84G:1433;databaseName=BEEL_BALAM", "sa", "2020640576");
             CallableStatement resConexion;
             resConexion = miConexion.prepareCall("{call VER_HISTORIAL_COMPRAS(?)}");
             //System.out.println("nUsuario en window: "+nUsuario);

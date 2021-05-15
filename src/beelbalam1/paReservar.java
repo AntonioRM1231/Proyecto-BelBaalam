@@ -10,12 +10,11 @@ package beelbalam1;
  * @author rodri
  */
 public class paReservar {
-    //datos del cliente 
+    
     private String pNombre;
     private String sNombre;
     private String pApellido;
     private String sApellido;
     private int edad;
-    //datos de la reserva 
     
 }

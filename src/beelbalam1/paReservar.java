@@ -20,5 +20,6 @@ public class paReservar {
     private String matTren;
     private int dateR;
     private String nombreUs;
-    private String nombreTr;    
+    private String nombreTr;  
+    
 }

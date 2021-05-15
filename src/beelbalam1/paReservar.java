@@ -16,5 +16,9 @@ public class paReservar {
     private String pApellido;
     private String sApellido;
     private int edad;
-    
+    private String ncd;
+    private String matTren;
+    private int dateR;
+    private String nombreUs;
+    private String nombreTr;    
 }

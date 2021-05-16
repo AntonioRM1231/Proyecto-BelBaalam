@@ -19,6 +19,7 @@ public class Window extends javax.swing.JPanel {
 
     ComboBoxModel EnumSt;
     ComboBoxModel EnumFi;
+    paReservar reserva = new paReservar();
     
     String user; //usuario con el que se inició sesión
     String oldTarjeta;
@@ -54,7 +55,7 @@ public class Window extends javax.swing.JPanel {
         modelo.addColumn("Est Final");  
         modelo.addColumn("Costo");
     }
-
+    String[]botones={"Confirmar","Modificar","Cancelar"};
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -88,7 +89,7 @@ public class Window extends javax.swing.JPanel {
         txtDPassword = new javax.swing.JTextField();
         btnEliminarUsuario = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btnComprar = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -102,17 +103,17 @@ public class Window extends javax.swing.JPanel {
         cbTramo = new javax.swing.JComboBox<>();
         cbEstIni = new javax.swing.JComboBox<>();
         cbEstFin = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
+        txtNombres = new javax.swing.JTextField();
+        txtApeP = new javax.swing.JTextField();
+        txtApeM = new javax.swing.JTextField();
+        txtEdad = new javax.swing.JTextField();
+        txtNac = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
-        jTextField8 = new javax.swing.JTextField();
+        txtDia = new javax.swing.JTextField();
+        txtMes = new javax.swing.JTextField();
+        txtYear = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -288,10 +289,10 @@ public class Window extends javax.swing.JPanel {
 
         jPanel2.setBackground(new java.awt.Color(255, 153, 204));
 
-        jButton1.setText("Vas Toñito");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnComprar.setText("Comprar");
+        btnComprar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnComprarActionPerformed(evt);
             }
         });
 
@@ -330,21 +331,21 @@ public class Window extends javax.swing.JPanel {
             }
         });
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txtNombres.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txtNombresActionPerformed(evt);
             }
         });
 
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        txtApeM.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                txtApeMActionPerformed(evt);
             }
         });
 
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+        txtNac.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
+                txtNacActionPerformed(evt);
             }
         });
 
@@ -366,7 +367,7 @@ public class Window extends javax.swing.JPanel {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel16)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtEdad, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel9)
@@ -386,22 +387,22 @@ public class Window extends javax.swing.JPanel {
                                                 .addGap(112, 112, 112)
                                                 .addComponent(jLabel18)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(txtDia, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addComponent(jLabel7))
                                         .addGap(16, 16, 16)
                                         .addComponent(jLabel19)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtMes, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
                                         .addComponent(jLabel20)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(txtYear, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel17)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtNac, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(37, 37, 37)
-                                .addComponent(jButton1)))
+                                .addComponent(btnComprar)))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -413,13 +414,13 @@ public class Window extends javax.swing.JPanel {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel12)
                                 .addGap(46, 46, 46)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtNombres, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtApeP, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(49, 49, 49)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel15)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtApeM, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(70, 70, 70))))
         );
         jPanel2Layout.setVerticalGroup(
@@ -434,9 +435,9 @@ public class Window extends javax.swing.JPanel {
                     .addComponent(jLabel18)
                     .addComponent(jLabel19)
                     .addComponent(jLabel20)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
@@ -446,9 +447,9 @@ public class Window extends javax.swing.JPanel {
                 .addGap(44, 44, 44)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNombres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtApeP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtApeM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -461,16 +462,16 @@ public class Window extends javax.swing.JPanel {
                 .addGap(11, 11, 11)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtEdad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel17)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtNac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)))
+                        .addComponent(btnComprar)))
                 .addGap(89, 89, 89))
         );
 
@@ -663,21 +664,67 @@ public class Window extends javax.swing.JPanel {
         this.btnEdit.setVisible(true);
     }//GEN-LAST:event_btnSaveChangesActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprarActionPerformed
+        //BOTON COMPRAR
+        if(txtNombres.getText().isEmpty()||txtApeP.getText().isEmpty()||txtEdad.getText().isEmpty()||
+                txtNac.getText().isEmpty()||txtDia.getText().isEmpty()||txtMes.getText().isEmpty()||
+                txtYear.getText().isEmpty()||cbTramo.getSelectedIndex()==0){
+            
+            JOptionPane.showMessageDialog(null, "¡Error! Alguno o varios datos son incorrectos ");
+            txtNombres.setText(" ");
+            txtApeP.setText(" ");
+            txtApeM.setText(" ");
+            txtEdad.setText(" ");
+            txtNac.setText(" ");
+            txtDia.setText(" ");
+            txtMes.setText(" ");
+            txtYear.setText(" ");
+            
+        }else{
+            String nombreRecibido = txtNombres.getText();
+            String[] nombres = nombreRecibido.split("\\s+");
+            if(nombres.length == 1){
+                reserva.setpNombre(txtNombres.getText());
+                reserva.setsNombre(" ");
+                System.out.println("Solo un nombre: "+nombres[0]);
+            }else if(nombres.length == 2){
+                reserva.setpNombre(nombres[0]);
+                reserva.setsNombre(nombres[1]);
+                System.out.println("Primer nombre: "+nombres[0]);
+                System.out.println("Segundo nombre: "+nombres[1]);
+             }
+            reserva.setpApellido(txtApeP.getText());
+            reserva.setsApellido(txtApeM.getText());
+            reserva.setEdad(Integer.parseInt(txtEdad.getText()));
+            reserva.setNcd(txtNac.getText());
+            reserva.setMatTren(" ");
+            reserva.setDateR(Integer.parseInt(txtDia.getText().concat(txtMes.getText()).concat(txtYear.getText())));
+            reserva.setNombreUs("");
+            reserva.setNombreTr(cbTramo.getSelectedItem().toString());
+            reserva.hacerConexionrRe();
+            int x = JOptionPane.showOptionDialog(this,"¿Deseas completar la comprar?","Confirmacion Reserva",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,null,botones, botones[0]);
+
+            if(x==0){
+
+            }else if(x==1){
+
+            }else if(x==2){
+
+            }
+        }
+    }//GEN-LAST:event_btnComprarActionPerformed
 
     private void txtDNombreUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDNombreUsuarioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDNombreUsuarioActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txtNombresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombresActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txtNombresActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void txtApeMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtApeMActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_txtApeMActionPerformed
 
     private void cbTramoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTramoActionPerformed
         // TODO add your handling code here:
@@ -693,9 +740,9 @@ public class Window extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_cbTramoItemStateChanged
 
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+    private void txtNacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNacActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
+    }//GEN-LAST:event_txtNacActionPerformed
 
     private void btnAcuerdoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcuerdoActionPerformed
         //Manda la info al panel "VerPerfil"
@@ -895,13 +942,13 @@ public class Window extends javax.swing.JPanel {
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnAcuerdo;
     private javax.swing.JButton btnCerrarSesion;
+    private javax.swing.JButton btnComprar;
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnEliminarUsuario;
     private javax.swing.JButton btnSaveChanges;
     private javax.swing.JComboBox<String> cbEstFin;
     private javax.swing.JComboBox<String> cbEstIni;
     private javax.swing.JComboBox<String> cbTramo;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -933,20 +980,20 @@ public class Window extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
     private javax.swing.JTable tabla2;
+    private javax.swing.JTextField txtApeM;
+    private javax.swing.JTextField txtApeP;
     private javax.swing.JTextField txtDCorreoE;
     private javax.swing.JTextField txtDNombreUsuario;
     private javax.swing.JTextField txtDNumCel;
     private javax.swing.JTextField txtDNumTarjeta;
     private javax.swing.JTextField txtDPassword;
     private javax.swing.JTextField txtDPtosAcum;
+    private javax.swing.JTextField txtDia;
+    private javax.swing.JTextField txtEdad;
+    private javax.swing.JTextField txtMes;
+    private javax.swing.JTextField txtNac;
+    private javax.swing.JTextField txtNombres;
+    private javax.swing.JTextField txtYear;
     // End of variables declaration//GEN-END:variables
 }

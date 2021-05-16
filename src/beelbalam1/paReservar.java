@@ -113,7 +113,7 @@ public class paReservar {
             Connection miConexion = DriverManager.getConnection(
                     "jdbc:sqlserver://DESKTOP-KT6L84G:1433;databaseName=BEEL_BALAM", "sa", "2020640576");//2020640576
             CallableStatement resConexion;
-            resConexion = miConexion.prepareCall("{call CREAR_USUARIO(?,?,?,?,?,?,?,?,?,?)}");
+            resConexion = miConexion.prepareCall("{call COMPRA_BOLETOS(?,?,?,?,?,?,?,?,?,?)}");
             resConexion.setString(1,this.getpNombre());
             resConexion.setString(2,this.getsNombre());
             resConexion.setString(3,this.getpApellido());

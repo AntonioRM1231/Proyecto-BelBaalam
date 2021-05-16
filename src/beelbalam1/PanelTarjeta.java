@@ -190,6 +190,7 @@ public class PanelTarjeta extends javax.swing.JPanel {
         }else{
             //System.out.println("nusuario: "+panReg.nUsuario);
             paCrearUsuario.setNombreU(panReg.nUsuario);
+            System.out.println("linea 193" + paCrearUsuario.getNombreU());
             paCrearUsuario.setContraseniaU(panReg.cont);
             paCrearUsuario.setNumCelularU(panReg.numCel);
             paCrearUsuario.setCorreoU(panReg.correo);
@@ -202,7 +203,7 @@ public class PanelTarjeta extends javax.swing.JPanel {
             if(nombres.length == 1){
                 paCrearUsuario.setNombreT(txtNombreRepTarjeta.getText());
                 paCrearUsuario.setSegNombreT(" ");
-                System.out.println("Solo un nombre: "+nombres[0]);
+                System.out.println("Solo un nombre c: "+nombres[0]);
             }else if(nombres.length == 2){
                 paCrearUsuario.setNombreT(nombres[0]);
                 paCrearUsuario.setSegNombreT(nombres[1]);
@@ -217,6 +218,7 @@ public class PanelTarjeta extends javax.swing.JPanel {
             //LLAMAMOS AL PROC ALMACENADO PARA QUE CREE EL USUARIO 
             paCrearUsuario.hacerConexion();
             PanelWindow = new Window();
+            PanelWindow.setUser(panReg.nUsuario);
             PanelWindow.setBounds(this.getBounds());
             this.removeAll();
             this.add(PanelWindow);

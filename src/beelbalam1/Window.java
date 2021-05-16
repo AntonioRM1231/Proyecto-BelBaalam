@@ -27,7 +27,8 @@ public class Window extends javax.swing.JPanel {
     CallableStatement stm;
     ResultSet rs;
     
-    public static PantallaInicio3 p3 = new PantallaInicio3();
+    public static PantallaInicio3 p3 ;
+    public static PanelRegistro panReg2;
     /**
      * Creates new form Window
      */
@@ -699,6 +700,8 @@ public class Window extends javax.swing.JPanel {
     private void btnAcuerdoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcuerdoActionPerformed
         //Manda la info al panel "VerPerfil"
         String u = this.getUser();
+        System.out.println("u = " + u);
+        System.out.println("panreg2 = " + panReg2.nUsuario);
         this.getData(u,1);
         this.btnEdit.setVisible(true);
     }//GEN-LAST:event_btnAcuerdoActionPerformed
@@ -777,6 +780,7 @@ public class Window extends javax.swing.JPanel {
     public void setUser(String u){
         //Metodo que cambia el usuario en sesion
         this.user = u;
+        System.out.println("SET = " + this.getUser());
     }
     
     public String getUser(){

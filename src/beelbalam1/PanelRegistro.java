@@ -177,7 +177,7 @@ public class PanelRegistro extends javax.swing.JPanel {
                 }
                 //JOptionPane.showMessageDialog(null, "Se ha agreago correctamente al usuario");                                           
             }catch(Exception e){
-                //System.out.println("Ha habido un error al crear al usuario");
+                System.out.println("Ha habido un error al crear al usuario 2 ");
                 System.out.println(e);
             }
         }      

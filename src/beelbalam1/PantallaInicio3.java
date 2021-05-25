@@ -197,7 +197,7 @@ public class PantallaInicio3 extends javax.swing.JFrame {
             }
             rs.close();
             stm.close();
-            
+            conex.close();
         } catch (SQLException ex) {
             System.out.println("ERROR :c");
         }

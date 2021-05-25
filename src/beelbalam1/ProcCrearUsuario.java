@@ -128,8 +128,9 @@ public class ProcCrearUsuario {
     }
     
     public void hacerConexion(){
-        try {                                               //DESKTOP-KT6L84G
-            Connection miConexion = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-KT6L84G:1433;databaseName=BEEL_BALAM", "sa", "2020640576");//2020640576
+        try {                                               try ( //DESKTOP-KT6L84G
+                Connection miConexion = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-KT6L84G:1433;databaseName=BEEL_BALAM", "sa", "2020640576") //2020640576
+            ) {
             CallableStatement resConexion;
             resConexion = miConexion.prepareCall("{call CREAR_USUARIO(?,?,?,?,?,?,?,?,?,?,?,?)}");
             resConexion.setString(1,this.getNombreU());
@@ -146,7 +147,8 @@ public class ProcCrearUsuario {
             resConexion.setString(12,this.getNumeroT());
             JOptionPane.showMessageDialog(null, "Se ha agreago correctamente al usuario");
             resConexion.execute();
-            
+            resConexion.close();
+            }
         } catch (Exception e) {
             System.out.println("Ha habido un error al crear al usuario");
             System.out.println(e);

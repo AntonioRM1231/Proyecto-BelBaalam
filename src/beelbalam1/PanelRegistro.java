@@ -154,28 +154,32 @@ public class PanelRegistro extends javax.swing.JPanel {
             correo = txtCorreo.getText();
             //PARA VERIFICAR QUE EL USUARIO NO EXISTA
             try{
-                Connection miConexion = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-KT6L84G:1433;databaseName=BEEL_BALAM", "sa", "2020640576");//2020640576
-                CallableStatement resConexion;
-                resConexion = miConexion.prepareCall("{call VERIFICAR_USUARIO(?)}");
-                resConexion.setString(1,nUsuario);
-                ResultSet rs = resConexion.executeQuery();
-                if(rs.next()){
-                    System.out.println("Ya existe ese usuario");
-                    JOptionPane.showMessageDialog(null, "El usuario que ha ingresado ya existe, por favor intente con uno nuevo");                                           
-                    txtNombreUsuario.setText("");
-                    txtCorreo.setText("");
-                    txtNumCelular.setText("");
-                    txtContrasenia.setText("");
-                }else{
-                    //System.out.println("No existe ese usuario");
-                    //PARA IR AL PANEL DE TARJETA 
-                    panelTarjeta = new PanelTarjeta();
-                    panelTarjeta.setBounds(this.getBounds());
-                    this.removeAll();
-                    this.add(panelTarjeta);
-                    this.updateUI();
+                try (Connection miConexion = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-KT6L84G:1433;databaseName=BEEL_BALAM", "sa", "2020640576") //2020640576
+                ) {
+                    CallableStatement resConexion;
+                    resConexion = miConexion.prepareCall("{call VERIFICAR_USUARIO(?)}");
+                    resConexion.setString(1,nUsuario);
+                    ResultSet rs = resConexion.executeQuery();
+                    if(rs.next()){
+                        System.out.println("Ya existe ese usuario");
+                        JOptionPane.showMessageDialog(null, "El usuario que ha ingresado ya existe, por favor intente con uno nuevo");
+                        txtNombreUsuario.setText("");
+                        txtCorreo.setText("");
+                        txtNumCelular.setText("");
+                        txtContrasenia.setText("");
+                    }else{
+                        //System.out.println("No existe ese usuario");
+                        //PARA IR AL PANEL DE TARJETA
+                        panelTarjeta = new PanelTarjeta();
+                        panelTarjeta.setBounds(this.getBounds());
+                        this.removeAll();
+                        this.add(panelTarjeta);
+                        this.updateUI();
+                    }   
+                    rs.close();
+                    resConexion.close();
+                    //JOptionPane.showMessageDialog(null, "Se ha agreago correctamente al usuario");
                 }
-                //JOptionPane.showMessageDialog(null, "Se ha agreago correctamente al usuario");                                           
             }catch(Exception e){
                 System.out.println("Ha habido un error al crear al usuario 2 ");
                 System.out.println(e);

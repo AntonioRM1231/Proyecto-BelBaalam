@@ -24,10 +24,6 @@ public class Window extends javax.swing.JPanel {
     String user; //usuario con el que se inició sesión
     String oldTarjeta;
     
-    Connection conex;
-    CallableStatement stm;
-    ResultSet rs;
-    
     public static PantallaInicio3 p3 ;
     public static PanelRegistro panReg2;
     /**
@@ -630,33 +626,37 @@ public class Window extends javax.swing.JPanel {
         }else{//se quiere cambiar la tarjeta
             String r = null;
             try {
-                //Conecta
-                conex = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-KT6L84G:1433;databaseName=BEEL_BALAM", "sa", "2020640576");
                 //Busca si la tarjeta ya existe
-                stm = conex.prepareCall("{call CHECK_TARJETA(?)}");
-                stm.setString(1, this.txtDNumTarjeta.getText());
-                rs = stm.executeQuery();
-                if(rs.next())r = rs.getString(1);
-                if(r.equals("E")){//ya existe la tarjeta--> se aplica un editUsuario()
-                    u = this.editUsuario();
-                }else{ //no existe la tarjeta, se deben agregar sus datos
-                    cvc = Integer.parseInt(JOptionPane.showInputDialog("Inserte el CVC"));
-                    fecha = Integer.parseInt(JOptionPane.showInputDialog("Inserte la fecha de vigencia [MMAA]"));
-                    pN = JOptionPane.showInputDialog("Inserte el primer nombre del representante");
-                    jcb.setVisible(true);
-                    jcb.setEditable(true);
-                    JOptionPane.showMessageDialog(null,jcb,"¿El representante tiene segundo nombre?",JOptionPane.QUESTION_MESSAGE);
-                    String opc = (String) jcb.getSelectedItem();
-                    if(opc.equals("Si"))sN = JOptionPane.showInputDialog("Inserte el segundo nombre del representante");
-                    else sN = null;
-                    pA = JOptionPane.showInputDialog("Inserte el primer apellido del representante");
-                    JOptionPane.showMessageDialog(null,jcb,"¿El representante tiene segundo apellido?",JOptionPane.QUESTION_MESSAGE);
-                    String opc2 = (String) jcb.getSelectedItem();
-                    if(opc2.equals("Si"))sA = JOptionPane.showInputDialog("Inserte el segundo apellido del representante");
-                    else sA = null;
-                    u = this.editUsuario(cvc,fecha,pN,sN,pA,sA);
+                try ( //Conecta
+                        Connection conex = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-KT6L84G:1433;databaseName=BEEL_BALAM", "sa", "2020640576")) {
+                    //Busca si la tarjeta ya existe
+                    CallableStatement stm = conex.prepareCall("{call CHECK_TARJETA(?)}");
+                    stm.setString(1, this.txtDNumTarjeta.getText());
+                    ResultSet rs = stm.executeQuery();
+                    if(rs.next())r = rs.getString(1);
+                    if(r.equals("E")){//ya existe la tarjeta--> se aplica un editUsuario()
+                        u = this.editUsuario();
+                    }else{ //no existe la tarjeta, se deben agregar sus datos
+                        cvc = Integer.parseInt(JOptionPane.showInputDialog("Inserte el CVC"));
+                        fecha = Integer.parseInt(JOptionPane.showInputDialog("Inserte la fecha de vigencia [MMAA]"));
+                        pN = JOptionPane.showInputDialog("Inserte el primer nombre del representante");
+                        jcb.setVisible(true);
+                        jcb.setEditable(true);
+                        JOptionPane.showMessageDialog(null,jcb,"¿El representante tiene segundo nombre?",JOptionPane.QUESTION_MESSAGE);
+                        String opc = (String) jcb.getSelectedItem();
+                        if(opc.equals("Si"))sN = JOptionPane.showInputDialog("Inserte el segundo nombre del representante");
+                        else sN = null;
+                        pA = JOptionPane.showInputDialog("Inserte el primer apellido del representante");
+                        JOptionPane.showMessageDialog(null,jcb,"¿El representante tiene segundo apellido?",JOptionPane.QUESTION_MESSAGE);
+                        String opc2 = (String) jcb.getSelectedItem();
+                        if(opc2.equals("Si"))sA = JOptionPane.showInputDialog("Inserte el segundo apellido del representante");
+                        else sA = null;
+                        u = this.editUsuario(cvc,fecha,pN,sN,pA,sA);
+                    }
+                    this.changes(u);
+                    rs.close();
+                    stm.close();
                 }
-                this.changes(u);
             } catch (SQLException ex) {
                 System.out.println("ERROR en saveChanges");
             }
@@ -704,13 +704,13 @@ public class Window extends javax.swing.JPanel {
             reserva.hacerConexionrRe();
             int x = JOptionPane.showOptionDialog(this,"¿Deseas completar la comprar?","Confirmacion Reserva",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,null,botones, botones[0]);
 
-            if(x==0){
+            /*if(x==0){
 
             }else if(x==1){
 
             }else if(x==2){
 
-            }
+            }*/
         }
     }//GEN-LAST:event_btnComprarActionPerformed
 
@@ -758,23 +758,25 @@ public class Window extends javax.swing.JPanel {
              ((DefaultTableModel)tabla2.getModel()).removeRow(i);
         }
         try{
-            Connection miConexion = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-KT6L84G:1433;databaseName=BEEL_BALAM", "sa", "2020640576");
-            CallableStatement resConexion;
-            resConexion = miConexion.prepareCall("{call VER_HISTORIAL_COMPRAS(?)}");
-            //System.out.println("nUsuario en window: "+nUsuario);
-            //System.out.println("nUsuarioPI en window: "+p3.nUsuarioPI);
-            resConexion.setString(1,p3.nUsuarioPI);
-
-            ResultSet rs = resConexion.executeQuery();
-            while(rs.next()){
-                //Object fila[] = {"20","anita","10/20/20","selva","tulum","escarcega",100};
-                String nombre = rs.getString(2)+" "+rs.getString(3)+" "+rs.getString(4)+" "+
-                        rs.getString(5);
-                Object fila[] = {rs.getInt(1),nombre,rs.getDate(6),rs.getString(7),
-                    rs.getString(8),rs.getString(9),rs.getDouble(10)};
-                ((DefaultTableModel)tabla2.getModel()).addRow(fila);
+            try (Connection miConexion = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-KT6L84G:1433;databaseName=BEEL_BALAM", "sa", "2020640576")) {
+                CallableStatement resConexion;
+                resConexion = miConexion.prepareCall("{call VER_HISTORIAL_COMPRAS(?)}");
+                //System.out.println("nUsuario en window: "+nUsuario);
+                //System.out.println("nUsuarioPI en window: "+p3.nUsuarioPI);
+                resConexion.setString(1,p3.nUsuarioPI);
+                
+                ResultSet rs = resConexion.executeQuery();
+                while(rs.next()){
+                    //Object fila[] = {"20","anita","10/20/20","selva","tulum","escarcega",100};
+                    String nombre = rs.getString(2)+" "+rs.getString(3)+" "+rs.getString(4)+" "+
+                            rs.getString(5);
+                    Object fila[] = {rs.getInt(1),nombre,rs.getDate(6),rs.getString(7),
+                        rs.getString(8),rs.getString(9),rs.getDouble(10)};
+                    ((DefaultTableModel)tabla2.getModel()).addRow(fila);
+                }
+                rs.close();
+                resConexion.close();
             }
-            rs.close();
         }catch(Exception e){
             //System.out.println("Ha habido un error al crear al usuario");
             System.out.println(e);
@@ -844,25 +846,27 @@ public class Window extends javax.swing.JPanel {
         String tarjeta = null;
         int ptos = 0;
         try {
-            //Conecta
-            conex = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-KT6L84G:1433;databaseName=BEEL_BALAM", "sa", "2020640576");
             //Obtiene la info del usuario
-            stm = conex.prepareCall("{call GET_USERDATA(?)}");
-            stm.setString(1, user);
-            rs = stm.executeQuery();
-            if(rs.next()){ //si encuentra el usuario, verifica que la contraseña sea correcta
-                nombre = rs.getString(1);
-                contra = rs.getString(2);
-                correo = rs.getString(3);
-                numero = rs.getString(4);
-                ptos = rs.getInt(5);
-                tarjeta = rs.getString(6);
-            }else{
-                JOptionPane.showMessageDialog(null, "Usuario no encontrado");
+            try ( //Conecta
+                    Connection conex = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-KT6L84G:1433;databaseName=BEEL_BALAM", "sa", "2020640576")) {
+                //Obtiene la info del usuario
+                CallableStatement stm = conex.prepareCall("{call GET_USERDATA(?)}");
+                stm.setString(1, user);
+                ResultSet rs = stm.executeQuery();
+                if(rs.next()){ //si encuentra el usuario, verifica que la contraseña sea correcta
+                    nombre = rs.getString(1);
+                    contra = rs.getString(2);
+                    correo = rs.getString(3);
+                    numero = rs.getString(4);
+                    ptos = rs.getInt(5);
+                    tarjeta = rs.getString(6);
+                }else{
+                    JOptionPane.showMessageDialog(null, "Usuario no encontrado");
+                }
+                System.out.println(nombre+"/"+contra+"/"+correo+"/"+numero+"/"+ptos+"/"+tarjeta);
+                rs.close();
+                stm.close();
             }
-            System.out.println(nombre+"/"+contra+"/"+correo+"/"+numero+"/"+ptos+"/"+tarjeta);
-            rs.close();
-            stm.close();
             this.txtDNombreUsuario.setText(nombre);
             this.txtDCorreoE.setText(correo);
             this.txtDNumCel.setText(numero);
@@ -883,9 +887,9 @@ public class Window extends javax.swing.JPanel {
         String r = null;
         try {
             //Conecta
-            conex = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-KT6L84G:1433;databaseName=BEEL_BALAM", "sa", "2020640576");
+            Connection conex = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-KT6L84G:1433;databaseName=BEEL_BALAM", "sa", "2020640576");
             //Inserta la nueva tarjeta
-            stm = conex.prepareCall("{call INSERT_TARJETA(?,?,?,?,?,?,?)}");
+            CallableStatement stm = conex.prepareCall("{call INSERT_TARJETA(?,?,?,?,?,?,?)}");
             stm.setString(1, this.txtDNumTarjeta.getText());
             stm.setInt(2,cvc );
             stm.setString(3,pN );
@@ -893,7 +897,7 @@ public class Window extends javax.swing.JPanel {
             stm.setString(5,pA);
             stm.setString(6,sA);
             stm.setInt(7,fecha);
-            rs = stm.executeQuery();
+            ResultSet rs = stm.executeQuery();
             if(rs.next()){
                 r = rs.getString(1);
                 System.out.println("RES1 = "+ r);
@@ -921,16 +925,16 @@ public class Window extends javax.swing.JPanel {
         System.out.println("No se tiene que agregar una tarjeta");
         try {
             //Conecta
-            conex = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-KT6L84G:1433;databaseName=BEEL_BALAM", "sa", "2020640576");
+            Connection conex = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-KT6L84G:1433;databaseName=BEEL_BALAM", "sa", "2020640576");
             //Cambia los datos, excepto los de la tarjeta
-            stm = conex.prepareCall("{call EDIT_U_SIMPLE(?,?,?,?,?,?)}");
+            CallableStatement stm = conex.prepareCall("{call EDIT_U_SIMPLE(?,?,?,?,?,?)}");
             stm.setString(1, this.getUser());
             stm.setString(2, this.txtDNombreUsuario.getText());
             stm.setString(3, this.txtDPassword.getText());
             stm.setString(4, this.txtDCorreoE.getText());
             stm.setString(5, this.txtDNumCel.getText());
             stm.setString(6, this.txtDNumTarjeta.getText());
-            rs = stm.executeQuery();
+            ResultSet rs = stm.executeQuery();
             if(rs.next())r = rs.getString(1);
         } catch (SQLException ex) {
             System.out.println("ERROR en editUsuario");

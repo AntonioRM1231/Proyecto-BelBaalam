@@ -628,7 +628,7 @@ public class Window extends javax.swing.JPanel {
             try {
                 //Busca si la tarjeta ya existe
                 try ( //Conecta
-                        Connection conex = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-KT6L84G:1433;databaseName=BEEL_BALAM", "sa", "2020640576")) {
+                        Connection conex = DriverManager.getConnection("jdbc:sqlserver://LAPTOP-8M3QSOFP\\SQLEXPRESS:1433;databaseName=BEEL_BALAM","sa", "llatitabebe")) {
                     //Busca si la tarjeta ya existe
                     CallableStatement stm = conex.prepareCall("{call CHECK_TARJETA(?)}");
                     stm.setString(1, this.txtDNumTarjeta.getText());
@@ -758,7 +758,7 @@ public class Window extends javax.swing.JPanel {
              ((DefaultTableModel)tabla2.getModel()).removeRow(i);
         }
         try{
-            try (Connection miConexion = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-KT6L84G:1433;databaseName=BEEL_BALAM", "sa", "2020640576")) {
+            try (Connection miConexion = DriverManager.getConnection("jdbc:sqlserver://LAPTOP-8M3QSOFP\\SQLEXPRESS:1433;databaseName=BEEL_BALAM","sa", "llatitabebe")) {
                 CallableStatement resConexion;
                 resConexion = miConexion.prepareCall("{call VER_HISTORIAL_COMPRAS(?)}");
                 //System.out.println("nUsuario en window: "+nUsuario);
@@ -848,7 +848,7 @@ public class Window extends javax.swing.JPanel {
         try {
             //Obtiene la info del usuario
             try ( //Conecta
-                    Connection conex = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-KT6L84G:1433;databaseName=BEEL_BALAM", "sa", "2020640576")) {
+                    Connection conex = DriverManager.getConnection("jdbc:sqlserver://LAPTOP-8M3QSOFP\\SQLEXPRESS:1433;databaseName=BEEL_BALAM","sa", "llatitabebe")) {
                 //Obtiene la info del usuario
                 CallableStatement stm = conex.prepareCall("{call GET_USERDATA(?)}");
                 stm.setString(1, user);
@@ -887,7 +887,7 @@ public class Window extends javax.swing.JPanel {
         String r = null;
         try {
             //Conecta
-            Connection conex = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-KT6L84G:1433;databaseName=BEEL_BALAM", "sa", "2020640576");
+            Connection conex = DriverManager.getConnection("jdbc:sqlserver://LAPTOP-8M3QSOFP\\SQLEXPRESS:1433;databaseName=BEEL_BALAM","sa", "llatitabebe");
             //Inserta la nueva tarjeta
             CallableStatement stm = conex.prepareCall("{call INSERT_TARJETA(?,?,?,?,?,?,?)}");
             stm.setString(1, this.txtDNumTarjeta.getText());
@@ -925,7 +925,7 @@ public class Window extends javax.swing.JPanel {
         System.out.println("No se tiene que agregar una tarjeta");
         try {
             //Conecta
-            Connection conex = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-KT6L84G:1433;databaseName=BEEL_BALAM", "sa", "2020640576");
+            Connection conex = DriverManager.getConnection("jdbc:sqlserver://LAPTOP-8M3QSOFP\\SQLEXPRESS:1433;databaseName=BEEL_BALAM","sa", "llatitabebe");
             //Cambia los datos, excepto los de la tarjeta
             CallableStatement stm = conex.prepareCall("{call EDIT_U_SIMPLE(?,?,?,?,?,?)}");
             stm.setString(1, this.getUser());

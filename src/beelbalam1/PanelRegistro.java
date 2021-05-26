@@ -155,7 +155,7 @@ public class PanelRegistro extends javax.swing.JPanel {
             correo = txtCorreo.getText();
             //PARA VERIFICAR QUE EL USUARIO NO EXISTA
             try{
-                try (Connection miConexion = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-KT6L84G:1433;databaseName=BEEL_BALAM", "sa", "2020640576") //2020640576
+                try (Connection miConexion = DriverManager.getConnection("jdbc:sqlserver://LAPTOP-8M3QSOFP\\SQLEXPRESS:1433;databaseName=BEEL_BALAM","sa", "llatitabebe") //2020640576
                 ) {
                     CallableStatement resConexion;
                     resConexion = miConexion.prepareCall("{call VERIFICAR_USUARIO(?)}");

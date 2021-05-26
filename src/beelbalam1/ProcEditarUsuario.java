@@ -125,7 +125,7 @@ public class ProcEditarUsuario {
     
     public void hacerConexionEditUsuario(){
         try {
-            try (Connection miConexionEdit = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-KT6L84G:1433;databaseName=BEEL_BALAM", "sa", "2020640576")) {
+            try (Connection miConexionEdit = DriverManager.getConnection("jdbc:sqlserver://LAPTOP-8M3QSOFP\\SQLEXPRESS:1433;databaseName=BEEL_BALAM","sa", "llatitabebe")) {
                 CallableStatement resConexionBU;
                 resConexionBU = miConexionEdit.prepareCall("{call EDITAR_USUARIO(?,?,?,?,?,?,?,?,?,?,?,?)}");
                 resConexionBU.setString(1,this.getNombreEU());
@@ -140,6 +140,7 @@ public class ProcEditarUsuario {
                 resConexionBU.setString(10,this.getPrimerApTEU());
                 resConexionBU.setString(11,this.getSegundoApTEU());
                 resConexionBU.setInt(12,this.getFechaVEU());
+                resConexionBU.execute();
                 JOptionPane.showMessageDialog(null, "Se han editado correctamente los datos del usuario");
                 resConexionBU.close();
             }

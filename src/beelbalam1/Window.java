@@ -631,56 +631,39 @@ public class Window extends javax.swing.JPanel {
     private void btnSaveChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveChangesActionPerformed
         String u = null;
         //Datos por la psoible insercion de una tarjeta
-        int cvc;
-        String pN;
-        String sN;
-        String pA;
-        String sA;
-        int fecha;
+        int cvc = 0;
+        String pN = " ";
+        String sN = " ";
+        String pA = " ";
+        String sA = " ";
+        int fecha = 0;
         String[] list = {"No","Si"};
         JComboBox jcb = new JComboBox(list);
         jcb.setVisible(false);
         
-        if(this.txtDNumTarjeta.getText().equals(oldTarjeta)){//no se cambbiará la tarjeta
-            u = this.editUsuario();
-            this.changes(u);
-        }else{//se quiere cambiar la tarjeta
-            String r = null;
-            try {
-                //Busca si la tarjeta ya existe
-                try ( //Conecta
-                    Connection conex = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-KT6L84G:1433;databaseName=BEEL_BALAM","sa", "2020640576")) {
-                    //Busca si la tarjeta ya existe
-                    CallableStatement stm = conex.prepareCall("{call CHECK_TARJETA(?)}");
-                    stm.setString(1, this.txtDNumTarjeta.getText());
-                    ResultSet rs = stm.executeQuery();
-                    if(rs.next())r = rs.getString(1);
-                    if(r.equals("E")){//ya existe la tarjeta--> se aplica un editUsuario()
-                        u = this.editUsuario();
-                    }else{ //no existe la tarjeta, se deben agregar sus datos
-                        cvc = Integer.parseInt(JOptionPane.showInputDialog("Inserte el CVC"));
-                        fecha = Integer.parseInt(JOptionPane.showInputDialog("Inserte la fecha de vigencia [MMAA]"));
-                        pN = JOptionPane.showInputDialog("Inserte el primer nombre del representante");
-                        jcb.setVisible(true);
-                        jcb.setEditable(true);
-                        JOptionPane.showMessageDialog(null,jcb,"¿El representante tiene segundo nombre?",JOptionPane.QUESTION_MESSAGE);
-                        String opc = (String) jcb.getSelectedItem();
-                        if(opc.equals("Si"))sN = JOptionPane.showInputDialog("Inserte el segundo nombre del representante");
-                        else sN = null;
-                        pA = JOptionPane.showInputDialog("Inserte el primer apellido del representante");
-                        JOptionPane.showMessageDialog(null,jcb,"¿El representante tiene segundo apellido?",JOptionPane.QUESTION_MESSAGE);
-                        String opc2 = (String) jcb.getSelectedItem();
-                        if(opc2.equals("Si"))sA = JOptionPane.showInputDialog("Inserte el segundo apellido del representante");
-                        else sA = null;
-                        u = this.editUsuario(cvc,fecha,pN,sN,pA,sA);
-                    }
-                    this.changes(u);
-                    rs.close();
-                    stm.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println("ERROR en saveChanges");
-            }
+        //Codigo para validar extensión de datos
+        int v = 0;
+        int l = this.txtDNombreUsuario.getText().length();
+        if((l>0) && (l<=25)) v++;
+        l = this.txtDCorreoE.getText().length();
+        if((l>0) && (l<=35)) v++;
+        l = this.txtDNumCel.getText().length();
+        if(l==10) v++;
+        l = this.txtDPassword.getText().length();
+        if((l>0) && (l<=20)) v++;
+        l = this.txtDNumTarjeta.getText().length();
+        if(l==16) v++;
+        
+        if(v == 5){
+            transEditarU(u,cvc,fecha,pN,jcb,sN,pA,sA);
+        }else{
+            JOptionPane.showMessageDialog(null,"Datos ingresados no cumplen con los requisitos adecuados.\n"
+                    + "\t*El nombre de usuario debe tener máximo 25 caracteres.\n"
+                    + "\t*El correo electrónico debe tener máximo 35 caracteres\n"
+                    + "\t*El numero de celular debe tener 10 digitos\n"
+                    + "\t*La contraseña debe tener maximo 20 caracteres\n"
+                    + "\t*El numero de tarjeta debe tener 16 caracteres\n");
+            this.changes(".");
         }
         this.btnEdit.setVisible(true);
     }//GEN-LAST:event_btnSaveChangesActionPerformed
@@ -902,45 +885,45 @@ public class Window extends javax.swing.JPanel {
         }
     }
     
-    public String editUsuario(int cvc,int fecha,String pN,String sN,String pA,String sA){
-        //Metodo para editar datos del usuario cuando pretende cambiar la tarjeta
-        System.out.println("Agrega una tarjeta");
+    public String editUsuario(String u,int cvc,int fecha,String pN,JComboBox jcb,String sN,String pA,String sA){
+        cvc = Integer.parseInt(JOptionPane.showInputDialog("Inserte el CVC"));
+        fecha = Integer.parseInt(JOptionPane.showInputDialog("Inserte la fecha de vigencia [MMAA]"));
+        pN = JOptionPane.showInputDialog("Inserte el primer nombre del representante");
+        jcb.setVisible(true);
+        jcb.setEditable(true);
+        JOptionPane.showMessageDialog(null,jcb,"¿El representante tiene segundo nombre?",JOptionPane.QUESTION_MESSAGE);
+        String opc = (String) jcb.getSelectedItem();
+        if(opc.equals("Si"))sN = JOptionPane.showInputDialog("Inserte el segundo nombre del representante");
+        else sN = "0";
+        pA = JOptionPane.showInputDialog("Inserte el primer apellido del representante");
+        JOptionPane.showMessageDialog(null,jcb,"¿El representante tiene segundo apellido?",JOptionPane.QUESTION_MESSAGE);
+        String opc2 = (String) jcb.getSelectedItem();
+        if(opc2.equals("Si"))sA = JOptionPane.showInputDialog("Inserte el segundo apellido del representante");
+        else sA = "0";
+        
         String r = null;
-        try {
-            //Conecta
-            Connection conex = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-KT6L84G:1433;databaseName=BEEL_BALAM","sa", "2020640576");
-            //Inserta la nueva tarjeta
-            CallableStatement stm = conex.prepareCall("{call INSERT_TARJETA(?,?,?,?,?,?,?)}");
-            stm.setString(1, this.txtDNumTarjeta.getText());
-            stm.setInt(2,cvc );
-            stm.setString(3,pN );
-            stm.setString(4,sN);
-            stm.setString(5,pA);
-            stm.setString(6,sA);
-            stm.setInt(7,fecha);
-            ResultSet rs = stm.executeQuery();
-            if(rs.next()){
-                r = rs.getString(1);
-                System.out.println("RES1 = "+ r);
-            }
-            stm = conex.prepareCall("{call EDIT_U_COMPLETE(?,?,?,?,?,?)}");
+        try (Connection conex = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-KT6L84G:1433;databaseName=BEEL_BALAM","sa", "2020640576")) {
+            CallableStatement stm = conex.prepareCall("{call EDIT_U_COMPLETE(?,?,?,?,?,?,?,?,?,?,?,?)}");
             stm.setString(1, this.getUser());
             stm.setString(2, this.txtDNombreUsuario.getText());
             stm.setString(3, this.txtDPassword.getText());
             stm.setString(4, this.txtDCorreoE.getText());
             stm.setString(5, this.txtDNumCel.getText());
             stm.setString(6, this.txtDNumTarjeta.getText());
-            rs = stm.executeQuery();
-            if(rs.next()){
-                r = rs.getString(1);
-                System.out.println("RES = "+ r);
-            }
+            stm.setInt(7,cvc);
+            stm.setString(8,pN );
+            stm.setString(9, sN);
+            stm.setString(10, pA);
+            stm.setString(11,sA );
+            stm.setInt(12, fecha);
+            ResultSet rs = stm.executeQuery();
+            if(rs.next())r = rs.getString(1);
         } catch (SQLException ex) {
-            System.out.println("ERROR en editUsuario AGREGARTARJETA");
+            System.out.println("ERROR en saveChanges");
         }
-        
         return r;
     }
+    
     public String editUsuario(){//Metodo para editar datos del usuario cuando no pretende cambiar la tarjeta
         String r = null;
         System.out.println("No se tiene que agregar una tarjeta");
@@ -962,6 +945,15 @@ public class Window extends javax.swing.JPanel {
         return r;
     }
     
+    public void transEditarU(String u,int cvc,int fecha,String pN,JComboBox jcb,String sN,String pA,String sA){
+        if(this.txtDNumTarjeta.getText().equals(oldTarjeta)){//no se cambbiará la tarjeta
+            u = this.editUsuario();
+            this.changes(u);
+        }else{//se quiere cambiar la tarjeta
+            u = this.editUsuario(u, cvc, fecha, pN, jcb, sN, pA, sA);
+            this.changes(u);
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnAcuerdo;

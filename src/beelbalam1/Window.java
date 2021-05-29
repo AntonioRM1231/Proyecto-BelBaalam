@@ -718,12 +718,13 @@ public class Window extends javax.swing.JPanel {
             reserva.setsApellido(txtApeM.getText());
             reserva.setEdad(Integer.parseInt(txtEdad.getText()));
             reserva.setNcd(txtNac.getText());
-            reserva.setMatTren(" ");
+            reserva.setMatTren("ABC123");
             reserva.setDateR(Integer.parseInt(txtDia.getText().concat(txtMes.getText()).concat(txtYear.getText())));
-            reserva.setNombreUs("");
+            reserva.setNombreUs(user);
+            System.out.println(user);
             reserva.setNombreTr(cbTramo.getSelectedItem().toString());
             reserva.hacerConexionrRe();
-            int x = JOptionPane.showOptionDialog(this,"¿Deseas completar la comprar?","Confirmacion Reserva",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,null,botones, botones[0]);
+            //int x = JOptionPane.showOptionDialog(this,"¿Deseas completar la comprar?","Confirmacion Reserva",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,null,botones, botones[0]);
 
             /*if(x==0){
 

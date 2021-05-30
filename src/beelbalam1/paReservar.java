@@ -109,10 +109,9 @@ public class paReservar {
     }
     
     public void hacerConexionrRe(){
-        try {                                               try ( //DESKTOP-KT6L84G
-                Connection miConexion = DriverManager.getConnection(
-                        "jdbc:sqlserver://LAPTOP-3A3Q5S9M\\SQLEXPRESS:1433;databaseName=BEEL_BALAM", "sa", "ABCpiz12") //2020640576
-            ) {
+        System.out.println("Se ejecuta la funcion");
+        try {                      
+            try (Connection miConexion = DriverManager.getConnection("jdbc:sqlserver://LAPTOP-3A3Q5S9M\\SQLEXPRESS:1433;databaseName=BEEL_BALAM;user=sa;password=ABCpiz12;")) {
             CallableStatement resConexion;
             resConexion = miConexion.prepareCall("{call COMPRA_BOLETOS(?,?,?,?,?,?,?,?,?,?)}");
             resConexion.setString(1,this.getpNombre());
@@ -125,8 +124,10 @@ public class paReservar {
             resConexion.setInt(8,this.getDateR());
             resConexion.setString(9,this.getNombreUs());
             resConexion.setString(10,this.getNombreTr());
+            //resConexion.execute();
             JOptionPane.showMessageDialog(null, "Se ha generado correctamente la reserva");
             resConexion.close();
+            
             }
         } catch (Exception e) {
             System.out.println("Ha habido un error al generar la reserva");
